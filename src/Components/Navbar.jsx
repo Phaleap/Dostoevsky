@@ -11,14 +11,14 @@ const Navbar = () => {
         <ul>
           <li className="nav-link">
             <span className="link-inner">
-              <span className="link default">ABOUT US</span>
-              <span className="link hover">ABOUT US</span>
+              <span className="link default">ABOUT ME</span>
+              <span className="link hover">ABOUT ME</span>
             </span>
           </li>
           <li className="nav-link">
             <span className="link-inner">
-              <span className="link default">WORK WITH US</span>
-              <span className="link hover">WORK WITH US</span>
+              <span className="link default">WORK WITH ME</span>
+              <span className="link hover">WORK WITH ME</span>
             </span>
           </li>
         </ul>

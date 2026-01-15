@@ -2,7 +2,7 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 40px;
+  padding: 20px 100px;
   font-family: "Orbitron", sans-serif;
   font-size: 16px;
   position: fixed;

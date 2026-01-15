@@ -8,12 +8,12 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Home = () => {
   const section1Ref = useRef(null);
+  const section2Ref = useRef(null);
   const part2Ref = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(1);
-
+  
   useEffect(() => {
     let ctx = gsap.context(() => {
-      // 1. Expansion Animation
       gsap.to(section1Ref.current, {
         width: "100%",
         borderRadius: "0px",
@@ -25,7 +25,6 @@ const Home = () => {
         },
       });
 
-      // 2. Panels & Font Color Animation
       const panels = gsap.utils.toArray(".panel");
       const texts = gsap.utils.toArray(".panel p");
 
@@ -48,6 +47,31 @@ const Home = () => {
           }
         },
       });
+   const reveals = gsap.utils.toArray(
+  section2Ref.current.querySelectorAll(".reveal")
+);
+
+gsap.set(reveals, {
+  opacity: 0,
+  y: 60,
+});
+
+gsap.to(reveals, {
+  opacity: 1,
+  y: 0,
+  stagger: {
+    each: 0.35,
+    ease: "power2.out",
+  },
+  ease: "power2.out",
+  scrollTrigger: {
+    trigger: section2Ref.current,
+    start: "top 75%",
+    end: "bottom 40%",
+    scrub: 1.2,   // adds inertia
+    once: true
+  },
+});
 
       panels.forEach((panel, i) => {
         if (i > 0) {
@@ -61,6 +85,44 @@ const Home = () => {
 
     return () => ctx.revert();
   }, []);
+  useEffect(() => {
+  const container = section2Ref.current.querySelector(".dots-container");
+  const dots = [];
+  const dotCount = 100;
+
+  // Create dots
+  for (let i = 0; i < dotCount; i++) {
+    const dot = document.createElement("div");
+    dot.classList.add("dot");
+    dot.style.top = `${Math.random() * 100}%`;
+    dot.style.left = `${Math.random() * 100}%`;
+    dot.dataset.x = dot.style.left;
+    dot.dataset.y = dot.style.top;
+    container.appendChild(dot);
+    dots.push(dot);
+  }
+
+  // Mouse move parallax
+  const handleMouseMove = (e) => {
+    const { innerWidth, innerHeight } = window;
+    const xRatio = (e.clientX / innerWidth - 0.5) * 50;
+    const yRatio = (e.clientY / innerHeight - 0.5) * 50;
+
+    dots.forEach((dot, i) => {
+      const speed = (i / dotCount) * 1 + 0.2;
+      dot.style.transform = `translate(${xRatio * speed}px, ${yRatio * speed}px)`;
+    });
+  };
+
+  window.addEventListener("mousemove", handleMouseMove);
+
+  // Cleanup
+  return () => {
+    window.removeEventListener("mousemove", handleMouseMove);
+    dots.forEach(dot => container.removeChild(dot)); // remove dots
+  };
+}, []);
+
 
   return (
     <div>
@@ -85,7 +147,29 @@ const Home = () => {
 
           </div>
         </section>
-        <div style={{ height: "100vh" }}></div>
+     <section className="section2" ref={section2Ref}>
+  <div className="dots-container"></div>  {/* NEW */}
+  
+  <p className="reveal">Chapter</p>
+
+  <div className="chapter1 reveal">
+    <p>1</p>
+  </div>
+
+  <em className="reveal" style={{ fontSize: "2rem" }}>
+    .Born into Shadows.
+  </em>
+
+  <h1 className="reveal">
+    A child grows up between sickness, silence, and stories. In a hospital courtyard in Moscow, a mind begins to form—one that will one day stare directly into human suffering.
+  </h1>
+</section>
+
+<section style={{height: "100vh"}}>
+    
+</section>
+
+        
       </div>
     </div>
   );
