@@ -27,11 +27,9 @@ const Home = () => {
 
       const panels = gsap.utils.toArray(".panel");
       const texts = gsap.utils.toArray(".panel p");
-
-      // Set initial states: panels hidden/down, texts dimmed
-      gsap.set(panels.slice(1), { opacity: 0, y: 30 });
-      gsap.set(texts, { color: "rgba(255, 255, 255, 0.2)" }); // Dimmed initially
-      gsap.set(texts[0], { color: "rgba(255, 255, 255, 1)" }); // First text is bright
+      gsap.set(panels.slice(1), { opacity: 0, y: 100 });
+      gsap.set(texts, { color: "rgba(255, 255, 255, 0.2)" }); 
+      gsap.set(texts[0], { color: "rgba(255, 255, 255, 1)" }); 
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -68,58 +66,47 @@ gsap.to(reveals, {
     trigger: section2Ref.current,
     start: "top 75%",
     end: "bottom 40%",
-    scrub: 1.2,   // adds inertia
+    scrub: 1.2,  
     once: true
   },
 });
 
       panels.forEach((panel, i) => {
         if (i > 0) {
-          tl.to(panels[i - 1], { opacity: 0, y: -30, duration: 1 }, ">") // Hide old panel
-            .to(texts[i - 1], { color: "rgba(255, 255, 255, 0.2)", duration: 0.5 }, "<") // Dim old text
-            .to(panel, { opacity: 1, y: 0, duration: 1 }, "<") // Show new panel
-            .to(texts[i], { color: "rgba(255, 255, 255, 1)", duration: 1 }, "-=0.5"); // Brighten new text
+          tl.to(panels[i - 1], { opacity: 0, y: -30, duration: 1 }, ">") 
+            .to(texts[i - 1], { color: "rgba(255, 255, 255, 0.2)", duration: 0.5 }, "<") 
+            .to(panel, { opacity: 1, y: 0, duration: 1 }, "<")
+            .to(texts[i], { color: "rgba(255, 255, 255, 1)", duration: 1 }, "-=0.5");
         }
       });
     }, section1Ref);
 
     return () => ctx.revert();
   }, []);
-  useEffect(() => {
+useEffect(() => {
   const container = section2Ref.current.querySelector(".dots-container");
   const dots = [];
-  const dotCount = 100;
+  const dotCount = 1000;
 
-  // Create dots
   for (let i = 0; i < dotCount; i++) {
     const dot = document.createElement("div");
     dot.classList.add("dot");
     dot.style.top = `${Math.random() * 100}%`;
     dot.style.left = `${Math.random() * 100}%`;
-    dot.dataset.x = dot.style.left;
-    dot.dataset.y = dot.style.top;
     container.appendChild(dot);
     dots.push(dot);
+    gsap.to(dot, {
+      x: `+=${gsap.utils.random(-80, 80)}`,
+      y: `+=${gsap.utils.random(-80, 80)}`,
+      duration: gsap.utils.random(6, 12),
+      ease: "sine.inOut",
+      repeat: -1,
+      yoyo: true,
+    });
   }
 
-  // Mouse move parallax
-  const handleMouseMove = (e) => {
-    const { innerWidth, innerHeight } = window;
-    const xRatio = (e.clientX / innerWidth - 0.5) * 50;
-    const yRatio = (e.clientY / innerHeight - 0.5) * 50;
-
-    dots.forEach((dot, i) => {
-      const speed = (i / dotCount) * 1 + 0.2;
-      dot.style.transform = `translate(${xRatio * speed}px, ${yRatio * speed}px)`;
-    });
-  };
-
-  window.addEventListener("mousemove", handleMouseMove);
-
-  // Cleanup
   return () => {
-    window.removeEventListener("mousemove", handleMouseMove);
-    dots.forEach(dot => container.removeChild(dot)); // remove dots
+    dots.forEach(dot => container.removeChild(dot));
   };
 }, []);
 
@@ -148,7 +135,7 @@ gsap.to(reveals, {
           </div>
         </section>
      <section className="section2" ref={section2Ref}>
-  <div className="dots-container"></div>  {/* NEW */}
+  <div className="dots-container"></div>  
   
   <p className="reveal">Chapter</p>
 
@@ -165,8 +152,14 @@ gsap.to(reveals, {
   </h1>
 </section>
 
-<section style={{height: "100vh"}}>
-    
+<section style={{height: "100vh", backgroundColor: "black"}}>
+    <div className="years">
+
+    </div>
+    <div className="description">
+      
+    </div>
+
 </section>
 
         

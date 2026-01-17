@@ -122,10 +122,10 @@
 
 .dot {
     position: absolute;
-    width: 4px;
-    height: 4px;
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
-    background: white;
+    background: rgb(242, 255, 0);
     opacity: 0.3;
 }
 
