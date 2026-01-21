@@ -42,6 +42,7 @@ const Home = () => {
           onUpdate: (self) => {
             const index = Math.round(self.progress * (panels.length - 1)) + 1;
             setCurrentIndex(index);
+            console.log("Current Index:", index);
           }
         },
       });
@@ -81,12 +82,27 @@ gsap.to(reveals, {
       });
     }, section1Ref);
 
+    const years = document.querySelector(".yearsPart");
+    gsap.to(years, {
+      y: -500,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".section3",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+      },
+    })
+    const handleLoad = () => ScrollTrigger.refresh();
+  window.addEventListener("load", handleLoad);
+
     return () => ctx.revert();
+    window.removeEventListener("load", handleLoad);
   }, []);
 useEffect(() => {
   const container = section2Ref.current.querySelector(".dots-container");
   const dots = [];
-  const dotCount = 1000;
+  const dotCount = 200;
 
   for (let i = 0; i < dotCount; i++) {
     const dot = document.createElement("div");
@@ -148,17 +164,31 @@ useEffect(() => {
   </em>
 
   <h1 className="reveal">
-    A child grows up between sickness, silence, and stories. In a hospital courtyard in Moscow, a mind begins to form—one that will one day stare directly into human suffering.
+    A child grows up between sickness, silence, and stories.
   </h1>
 </section>
 
-<section style={{height: "100vh", backgroundColor: "black"}}>
+<section className="section3">
     <div className="years">
-
+      <p className="yearsPart">1821-1881</p>
     </div>
-    <div className="description">
-      
+    <div className="content">
+      <div className="text1">
+        <h2 className="reveal">Fyodor Mikhailovich Dostoevsky was born in 1821 in Moscow, the second of seven children. His early life was marked by fragility—both physically and emotionally. From a young age, he was surrounded by the quiet hum of illness and the distant echoes of grief, shaping his sensitivity to human suffering.</h2>
+        <h2 className="reveal">One of the most formative spaces of young Fyodor’s life was the courtyard of the hospital where his father worked as a doctor. Here, among the ailing and the grieving, he began to observe life in all its raw reality. The courtyard was a paradoxical world: a place of sickness and sorrow, yet also a place where stories unfolded—stories of human resilience, desperation, and hope.</h2>
+      </div>
+      <img src="https://i.pinimg.com/474x/e8/aa/55/e8aa55fb09c82d94afea59c58adbf273.jpg" alt="" />
+      <div className="text2">
+        <h2>
+          Fyodor’s family life was complex. His father, strict and at times distant, and his mother, tender yet often ill, created a household of contrasts. Silence was a constant companion, broken only by whispered stories, readings, and the occasional laughter. These moments planted the seeds of a mind that would later probe the deepest corners of the human psyche.
+        </h2>
+        <h2>
+          Even as a child, Dostoevsky showed a remarkable capacity to notice what others overlooked. The faces of suffering patients, the quiet dignity of nurses, and the stories told in hushed tones left impressions that would echo throughout his writing. In this shadowed childhood, empathy and imagination began to intertwine.
+        </h2>
+      </div>
     </div>
+</section>
+<section className="section4" style={{height: "100vh"}}>
 
 </section>
 
